@@ -1,0 +1,150 @@
+<GPACalculatorUI>:
+    orientation: 'vertical'
+    # spacing: '10dp'
+    padding_x: 20
+    BoxLayout:
+        orientation:'vertical'
+        size_hint: 1,.2
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: .5,1
+            pos_hint: {'center_x': .5, 'center_y': .5}
+                
+            Label:
+                id: result_label
+                size_hint: 1,1
+                bold: True
+                text: '0.0'
+                color:   (1, 1, 1, 1)
+                font_size: 40
+            
+            ProgressBar:
+                id: progress_id
+                max: 5
+                value: 0
+                canvas:
+                    BorderImage:
+                        border: [int(min(self.width * (self.value / float(self.max)) if self.max else 0, 5))] * 4
+                        # border: (1, 1, 1, 1)
+                        pos: self.x, self.center_y - 2
+                        size: self.width, 5
+                        source: 'assets/white.jpg'
+                        
+                    BorderImage:
+                        id: border_image_id
+                        border: [int(min(self.width * (self.value / float(self.max)) if self.max else 0, 5))] * 4
+                        pos: self.x, self.center_y - 2
+                        size: self.width * (self.value / float(self.max)) if self.max else 0, 5
+                        source: 'assets/green.png'
+
+
+                pos_hint: {'center_x': .5, 'center_y': .5}
+                ellipsis_options: {'color':(1,0.5,0.5,1),'underline':True}
+        RelativeLayout:
+            size_hint: .5,.5
+            pos_hint: {'center_x': .47, 'center_y': .5}
+            Label:
+                text:'Credit          |          Grade'
+                color:   (1, 1, 1, 1)
+                bold: True
+                text_size: self.size
+
+    ScrollView:
+        size_hint: 1,.6
+        canvas.before:
+            Color:
+                rgba: (0.8, 0.85, 0.9, 1) 
+            Rectangle:
+                size: self.width, self.height * 2
+        GridLayout:
+            id: course_list
+            cols: 2
+            
+            size_hint_y: None
+            height: self.minimum_height
+            spacing: '10dp'
+
+    BoxLayout:
+        orientation:'vertical'
+        size_hint: 1,.15
+
+        BoxLayout:
+            orientation: 'vertical'
+            BoxLayout:
+                # size_hint: .9,.5
+                orientation:'horizontal'
+
+                BoxLayout:
+                    orientation:'horizontal'
+                    Label:
+                        text: 'Credits'
+                        size_hint: .5,1
+                        
+                    Spinner:
+                        id: credit_input
+                        text: '3'
+                        background_normal:''
+                        background_down:''
+                        background_color: (0.9, 0.9, 0.9, 1)
+                        # text_autoupdate: True
+                        values: ['1', '2', '3']
+                        color: 0 , 0 , 0 , 1
+                BoxLayout:
+                    orientation:'horizontal'
+                    Label:
+                        text: 'Grade'
+                        size_hint: .5,1
+
+                    Spinner:
+                        id: grade_input
+                        values: ['F', 'E', 'D', 'C', 'B', 'A']
+                        background_normal:''
+                        background_down:''
+                        background_color: (0.9, 0.9, 0.9, 1)
+                        color: 0 , 0 , 0 , 1
+                        pos_hint: {'center_x': .5, 'center_y' : .5}
+                        # font_size: 20
+                        on_text: 
+                            app.add_course_button_pressed()
+                            app.calculate_gpa_button_pressed()
+                            
+            RelativeLayout
+                
+                BoxLayout:
+                    pos_hint: {'center_x':.5, 'center_y':.4}
+                    id: button_layout_id
+                    size_hint: .9,.9
+                    spacing: '10dp'
+                    Button:
+                        text:'Clear'
+                        background_normal: ''
+                        background_color: (.5, 0, 0, .75)
+                        color: 1, 1 , 1 , 1
+                        spacing: '30dp'
+                        size_hint: .4,1
+                        on_press:
+                            app.clear_courses()
+                        
+                    Button:
+                        id: previous_id
+                        text:'Previous'
+                        background_normal: ''
+                        background_color: (0, 0, .9, .75)
+                        color: 1, 1 , 1 , 1
+                        spacing: '30dp'
+                        size_hint: .4,1
+                        on_press:
+                            app.previous()
+
+    RelativeLayout:
+        size_hint: 1,.05
+        
+            
+        Label:
+            text:'poweredby Imacs'
+            color: 1, 1, 1, 1
+            italic: True
+            pos_hint: {'center_x': .7, 'center_y' : .5}
+            # text_size: self.size
+            font_size: 25
+            
